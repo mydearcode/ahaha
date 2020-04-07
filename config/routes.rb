@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
   
+  get 'users/index'
+  get 'users/show'
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
   confirmations:      'devise_token_auth/confirmations',
   passwords:          'devise_token_auth/passwords',
@@ -12,5 +14,5 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers
   end
-  
+  resources :users
 end
