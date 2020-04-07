@@ -46,6 +46,9 @@ class QuestionsController < ApplicationController
 
 
 
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
@@ -54,7 +57,7 @@ class QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:title, :description)
+      params.require(:question).permit(:title, :description, :category_id)
     end
 
     

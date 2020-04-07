@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   
+  resources :categories
   get 'users/index'
   get 'users/show'
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -12,7 +13,12 @@ Rails.application.routes.draw do
   token_validations:  'devise_token_auth/token_validations'
 }
   resources :questions do
-    resources :answers
+    resources :answers do
+      member do
+        put :select_answer
+      end
+    end
   end
   resources :users
+  
 end
