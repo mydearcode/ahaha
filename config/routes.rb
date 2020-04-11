@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   
   resources :categories
+  get 'questions/completed_questions' 
   get 'users/index'
   get 'users/show'
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -12,9 +13,11 @@ Rails.application.routes.draw do
   sessions:           'devise_token_auth/sessions',
   token_validations:  'devise_token_auth/token_validations'
 }
-  resources :questions do
+  resources :questions do 
+     
     resources :answers do
       member do
+        
         put :select_answer
       end
     end

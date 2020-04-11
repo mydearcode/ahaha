@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_234006) do
+ActiveRecord::Schema.define(version: 2020_04_08_234010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 2020_04_08_234006) do
     t.boolean "selected", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "reviewed", default: false
+    t.boolean "reported", default: false
+    t.boolean "rewardable", default: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -49,6 +52,11 @@ ActiveRecord::Schema.define(version: 2020_04_08_234006) do
     t.decimal "award"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "published", default: false
+    t.boolean "reported", default: false
+    t.boolean "reviewed", default: false
+    t.boolean "finished", default: false
+    t.boolean "rejected", default: false
     t.index ["category_id"], name: "index_questions_on_category_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -75,6 +83,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_234006) do
     t.decimal "budget", default: "0.0"
     t.integer "category_id"
     t.integer "subcategory_id"
+    t.boolean "admin", default: false
+    t.boolean "operator", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

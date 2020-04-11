@@ -41,11 +41,36 @@ class QuestionsController < ApplicationController
     @question.destroy
   end
 
+  def completed_questions
+    @questions = Question.where(completed: true)
+    render json: @questions
+  end
 
+def check_answer
+  if current_user.moderator? or current_user.admin?
+    @answer = @question.answers.find(params[:id])
+    @answer.update_attribute(rewardable: true)
+    if @answer.save
+      render json: @question.answers      
+    else
+      render json: @question.errors, status: :unprocessable_entity
+    end
+  else
+    render json: "You don't have permission for checking that question"
+  end
+end
 
-
-
-
+def finish_question
+  if current_user.moderator? or current_user.admin?
+    @question.update_attribute(finished: true)
+    @rewardable_answers = @question.answers.where(rewardable: true)
+    reward = (@question.award*70/100) / @rewardable_answers.size
+    @rewardable_answers.each do |answer|
+      answer.user.update_attribute(budget: answer.user.budget + reward )
+    end
+    
+  end
+end
 
 
 
@@ -57,7 +82,7 @@ class QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:title, :description, :category_id)
+      params.require(:question).permit(:title, :description, :category_id, :award)
     end
 
     

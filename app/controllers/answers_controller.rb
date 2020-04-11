@@ -22,11 +22,12 @@ end
   
 def select_answer 
   @answer = @question.answers.find(params[:id])
-  if @question.user == @answer.user
+  if @question.user == @answer.user or current_user.moderator?
     render json: "You cannot your select answer because this your question"
   else
     if current_user == @question.user    
       @answer.update_attribute(:selected, true)
+      @answer.question(:completed, true)
       if @answer.save
          
         render json: @answer
